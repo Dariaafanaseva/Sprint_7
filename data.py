@@ -1,6 +1,8 @@
 BASE_URL = 'https://qa-scooter.praktikum-services.ru/api/v1/'
 ORDERS_URL = 'orders/'
 COURIERS_URL = 'courier/'
+COURIER_ID_URL = 'courier/login'
+COURIERS_DELETE_URL = 'courier/:id'
 
 ORDER_DATA_BLACK_COLOR = {
     "firstName": "Naruto",
@@ -39,4 +41,10 @@ ORDER_DATA_NO_COLOR = {
     "deliveryDate": "2024-11-11",
     "comment": "Saske, come back to Konoha",
     "color": []
+}
+
+COURIER_DATA = {
+    "login": "niTnja",
+    "password": "1234",
+    "firstName": "Tsaske"
 }
