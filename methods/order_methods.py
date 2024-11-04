@@ -1,5 +1,6 @@
 from data import BASE_URL, ORDERS_URL
 import requests
+import allure
 
 
 class OrderMethods:

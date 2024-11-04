@@ -48,3 +48,13 @@ COURIER_DATA = {
     "password": "1234",
     "firstName": "Tsaske"
 }
+
+EXISTING_COURIER = {
+        "login": "existing_login159",
+        "password": "password",
+        "firstName": "Name"}
+
+COURIER_DATA_NO_LOGIN = {
+    "password": "1234",
+    "firstName": "Tsaske"
+}

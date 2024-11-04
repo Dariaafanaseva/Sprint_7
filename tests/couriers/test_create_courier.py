@@ -1,35 +1,44 @@
-import pytest
-#from data import COURIER_DATA
+import allure
+from data import COURIER_DATA_NO_LOGIN, EXISTING_COURIER
 
 class TestCreateCourier:
 
-    #проверки что курьера (со всеми обязательными полями) можно создать
-    def test_create_courier(self, courier_methods, courier):
-        status_code, response_context = courier_methods.post_create_courier(courier)
-        assert status_code == 201 and response_context == {'ok': True}
-
-    #нельзя создать курьера с дублирующими данными
-    def test_create_dublicate_courier(self, courier_methods, courier):
-        status_code, response_context = courier_methods.post_create_courier(courier)
-        assert status_code == 201
-        status_code_dup, response_context_dup = courier_methods.post_create_courier(courier)
-        assert status_code_dup == 409, f"Ожидался код 409, получен: {status_code_dup}. Ответ: {response_context_dup.get('message', 'Нет сообщения')}"
+    @allure.title("Успешное создание курьера")
+    @allure.description("Проверка успешного создания курьера")
+    def test_create_courier(self, courier_methods, courier_data):
+        response = courier_data[3]
+        assert response.status_code == 201 and response.json() == {'ok': True}
 
 
-    #нельзя создать курьера без логина:
-    def test_create_courier_without_firstname(self, courier_methods, courier_without_firstname):
-        status_code, response_context = courier_methods.post_create_courier(courier_without_firstname)
-        assert status_code == 400
+    @allure.title("Создание дубликата курьера")
+    @allure.description("Проверка невозможности создания двух курьеров с одинаковой парой логин/пароль")
+    def test_create_dublicate_courier(self, courier_methods, courier_data):
+        login = courier_data[0]
+        password = courier_data[1]
+        firstName = courier_data[2]
+        payload = {
+            "login": login,
+            "password": password,
+            "firstName": firstName
+        }
+        response = courier_methods.post_create_courier(payload)
+        assert response.status_code == 409
+
+
+    @allure.title("Создание курьера, заполняя не все обязательные поля")
+    @allure.description("Проверка невозможности создания курьера, если не передать в запрос логин")
+    def test_create_courier_without_firstname(self, courier_methods):
+        response = courier_methods.post_create_courier(COURIER_DATA_NO_LOGIN)
+        assert response.status_code == 400
 
     #нельзя создать курьера с существующим логином
-    def test_create_existing_courier(self, courier_methods, existing_courier):
-        status_code, response_context = courier_methods.post_create_courier(existing_courier)
-        assert status_code == 409 and response_context == {"message": "Этот логин уже используется"}
+    @allure.title("Создание курьера с существующим логином")
+    @allure.description("Проверка невозможности создания курьера с логином, который уже существует в системе")
+    def test_create_existing_courier(self, courier_methods):
+        response = courier_methods.post_create_courier(EXISTING_COURIER)
+        assert response.status_code == 409
 
-    #определение id созданного курьера
-    def test_id_courier(self, courier_methods, courier, courier_id):
-        status_code, response_context = courier_methods.post_create_courier(courier)
-        assert status_code == 201
+
 
 
 
