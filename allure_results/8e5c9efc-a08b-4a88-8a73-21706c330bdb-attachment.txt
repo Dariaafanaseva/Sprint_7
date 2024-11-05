@@ -1,0 +1,4 @@
+Create courier response: {"ok":true}
+Login response: {"id":418540}
+{"code":409,"message":"Этот логин уже используется. Попробуйте другой."}
+Курьер успешно удален

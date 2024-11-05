@@ -1,0 +1,3 @@
+Create courier response: {"ok":true}
+Login response: {"id":418543}
+Курьер успешно удален

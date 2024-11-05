@@ -1,10 +1,9 @@
 import pytest
 import random
 import string
-import allure
 from methods.order_methods import OrderMethods
 from methods.courier_methods import CourierMethods
-from tests.couriers.create_courier_data import CreateRandomCourier
+
 
 @pytest.fixture()
 def order_methods():
@@ -30,29 +29,20 @@ def courier_data(courier_methods):
         "firstName": first_name
     }
     response = courier_methods.post_create_courier(payload)
+    print(f"Create courier response: {response.text}")  # Добавлено для отладки
+    assert response.status_code == 201, "Не удалось создать курьера"
 
-    if response.status_code == 201:
-        print(login, password, first_name, response)
-        yield [login, password, first_name, response]
-    else:
-        raise Exception(f"Не удалось создать курьера: {response.text}")
+    login_payload = {
+        "login": login,
+        "password": password
+    }
 
-@pytest.fixture()
-def courier(courier_methods):
-    courier_instance = CreateRandomCourier()
-    response = courier_instance.register_new_courier_and_return_login_password_firstname()
-    return response
-
-@pytest.fixture
-def courier_without_firstname():
-    courier_instance = CreateRandomCourier()
-    login_pass = courier_instance.register_new_courier_without_firstname()
-    return login_pass
-
-
-@pytest.fixture
-def courier_id():
-    courier_instance = CreateRandomCourier()
-    response = courier_instance.register_new_courier_and_return_login_password()
-    return response
+    login_response = courier_methods.post_courier_id(login_payload)
+    print(f"Login response: {login_response.text}")  # Добавлено для отладки
+    assert login_response.status_code == 200, "Не удалось выполнить вход"
+    courier_id = login_response.json().get('id')
+    yield response, payload, login_response, login
+    if courier_id:
+        courier_methods.delete_courier(courier_id)
+    print('Курьер успешно удален')
 

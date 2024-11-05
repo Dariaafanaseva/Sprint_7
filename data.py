@@ -2,7 +2,13 @@ BASE_URL = 'https://qa-scooter.praktikum-services.ru/api/v1/'
 ORDERS_URL = 'orders/'
 COURIERS_URL = 'courier/'
 COURIER_ID_URL = 'courier/login'
-COURIERS_DELETE_URL = 'courier/:id'
+
+
+DUBLICATE_LOGIN_MESSAGE = 'Этот логин уже используется. Попробуйте другой.'
+CREATE_REQUEST_WITHOUT_LOGIN = 'Недостаточно данных для создания учетной записи'
+EXISTING_LOGIN_MASSAGE = 'Этот логин уже используется. Попробуйте другой.'
+LOGIN_REQUEST_WITHOUT_PASSWORD = 'Недостаточно данных для входа'
+NOT_EXISTING_DATA = 'Учетная запись не найдена'
 
 ORDER_DATA_BLACK_COLOR = {
     "firstName": "Naruto",
@@ -58,3 +64,4 @@ COURIER_DATA_NO_LOGIN = {
     "password": "1234",
     "firstName": "Tsaske"
 }
+
